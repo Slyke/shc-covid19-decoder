@@ -20,6 +20,10 @@ function decodeOnce(codeReader, selectedDeviceId) {
         },
         function (e) {
           console.error(e);
+          if (e.message === 'no key found') {
+            return decodeJWS(scannedJWS).then((decoded) => setResult(`No key given. Unable to validate signature.\n${JSON.stringify(decoded, null, 2)}`));
+            setResult("No key given. Unable to validate signature.");
+          }
           setResult("This looks like a fake vaccination proof");
         }
       );
